@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  mongo:
+    image: mvertes/alpine-mongo
+    container_name: pritunldb
+    hostname: pritunldb
+    network_mode: bridge
+
+  pritunl:
+    image: goofball222/pritunl:latest
+    container_name: pritunl
+    hostname: pritunl
+    depends_on:
+        - mongo
+    network_mode: bridge
+    privileged: true
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+    links:
+      - mongo
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 8080:80
+      - 4443:443
+      - 1194:1194
+      - 1194:1194/udp
+      - 1195:1195/udp
+    environment:
+      - TZ=UTC
