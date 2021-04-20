@@ -6,11 +6,13 @@ services:
     container_name: pritunldb
     hostname: pritunldb
     network_mode: bridge
+    restart: always
 
   pritunl:
     image: goofball222/pritunl:latest
     container_name: pritunl
     hostname: pritunl
+    restart: always
     depends_on:
         - mongo
     network_mode: bridge
